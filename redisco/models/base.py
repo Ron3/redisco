@@ -377,7 +377,7 @@ class Model(object):
         >>> f.delete()
         """
         if att not in self.counters:
-            raise ValueError("%s is not a counter.")
+            raise ValueError("%s is not a counter." % att)
         self.db.hincrby(self.key(), att, val)
 
     def decr(self, att, val=1):

@@ -842,7 +842,7 @@ class DateTimeFieldTestCase(RediscoTestCase):
 
     def test_basic(self):
         from datetime import datetime
-        n = datetime(2009, 12, 31).replace(tzinfo=tzlocal())
+        n = datetime(2009, 12, 31, 8, 30, 20).replace(tzinfo=tzlocal())
         class Post(models.Model):
             title = models.CharField()
             date_posted = models.DateTimeField()
