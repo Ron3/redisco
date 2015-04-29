@@ -190,8 +190,8 @@ class DateTimeField(Attribute):
 
     def typecast_for_read(self, value):
         try:
-            # We load as if the timestampe was naive
-            dt = datetime.fromtimestamp(float(value), tzutc())
+            # Load tz as utc and convert defaultly to local
+            dt = datetime.fromtimestamp(float(value), tzutc()).astimezone(tz=tzlocal())
             # And gently override (ie: not convert) to the TZ to UTC
             return dt
         except TypeError, ValueError:
@@ -205,7 +205,8 @@ class DateTimeField(Attribute):
             return None
         # Are we timezone aware ? If no, make it TimeZone Local
         if value.tzinfo is None:
-           value = value.replace(tzinfo=tzlocal())
+           # Defalut tz as local and then conver to utc
+           value = value.replace(tzinfo=tzlocal()).astimezone(tz=tzutc())
         return "%d.%06d" % (float(timegm(value.utctimetuple())),  value.microsecond)
 
     def value_type(self):
